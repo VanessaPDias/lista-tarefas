@@ -1,0 +1,11 @@
+#erro-input {
+    color: red;
+}
+
+ul {
+list-style-type: none;
+}
+
+.tarefa-marcada {
+    text-decoration: line-through;
+}
