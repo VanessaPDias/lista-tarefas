@@ -13,7 +13,8 @@ document.querySelector("#tarefa").onfocus = () => {
 //funcao chamada ao clique do botao
 function adicionarTarefa() {            
     //variavel que recebe o  valor adicionado no input
-    const novaTarefa = document.querySelector("#tarefa").value;     
+    const novaTarefa = document.querySelector("#tarefa").value; 
+    let listaDeTarefas = document.querySelector("#lista-tarefas");   
 
     //condicao para validar o campo vazio do input
     if(novaTarefa == "") {          
@@ -29,15 +30,15 @@ function adicionarTarefa() {
     //limpa o texto digitado no input
     document.querySelector("#tarefa").value = ""; 
     //limpa a lista de tarefas existente              
-    document.querySelector("#lista-tarefas").innerHTML = "";    
+    listaDeTarefas.innerHTML = "";    
 
     //laço para percorrer todo o Array
     for(let i = 0; i < tarefas.length; i++) { 
         //condicao para o status da tarefa      
         if(tarefas[i].concluida == true) {          
-            document.querySelector("#lista-tarefas").innerHTML = document.querySelector("#lista-tarefas").innerHTML + `<li class="tarefa-marcada" data-tarefa='${i}'><input class="marcar-tarefa" type="checkbox" checked="checked"/>${tarefas[i].nome}</li>`;
+            listaDeTarefas.innerHTML = listaDeTarefas.innerHTML + `<li class="tarefa-marcada" data-tarefa='${i}'><input class="marcar-tarefa" type="checkbox" checked="checked"/>${tarefas[i].nome}</li>`;
         }else {
-            document.querySelector("#lista-tarefas").innerHTML = document.querySelector("#lista-tarefas").innerHTML + `<li  data-tarefa='${i}'><input class="marcar-tarefa" type="checkbox"/>${tarefas[i].nome}</li>`;
+            listaDeTarefas.innerHTML = listaDeTarefas.innerHTML + `<li  data-tarefa='${i}'><input class="marcar-tarefa" type="checkbox"/>${tarefas[i].nome}</li>`;
 
         }
     }
@@ -54,12 +55,13 @@ function adicionarTarefa() {
 
 //funcao recebe o parametro 'evento' do tipo event object com informações do evento que aconteceu
 function checkboxClicado(evento) {          
+    //variavel recebe o atributo data-tarefa que guarda o indice das tarefas que foram adicionadas no array
+    let indiceDaTarefa = evento.target.parentElement.getAttribute("data-tarefa");
+    
     //verifica se o input checkbox esta marcado. target é a propriedade do objeto evento que localiza o elemento que disparou o evento
     if(evento.target.checked == true) {  
         //adiciona .tarefa-marcada a lista de classes do elemento pai (<li>) do elemento que disparou o evento (input checkbox)  
         evento.target.parentElement.classList.add("tarefa-marcada"); 
-        //variavel recebe o atributo data-tarefa que guarda o indice das tarefas que foram adicionadas no array
-        let indiceDaTarefa = evento.target.parentElement.getAttribute("data-tarefa");
         //localiza a tarefa pelo indice e altera o status da tarefa para true - concluida
         tarefas[indiceDaTarefa].concluida = true;
     }else {
